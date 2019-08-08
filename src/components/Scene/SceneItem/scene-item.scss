@@ -1,0 +1,8 @@
+@import '../../../scss/partials/variable';
+
+.scene__item {
+  width: 25px;
+  height: 25px;
+  background: $yellow;
+  outline: 2px solid $green;
+}
