@@ -1,7 +1,13 @@
 export default function mapDispatchToProps(dispatch) {
   return {
-    onChangeDir: (dir, position) => {
-      dispatch({ type: 'CHANGE_DIR', dir, position });
+    onChangeDir: (dir) => {
+      dispatch({ type: 'CHANGE_DIR', dir });
+    },
+    onChangeWormPos: () => {
+      dispatch({ type: 'CHANGE_WORM' });
+    },
+    onChangeApplePos: () => {
+      dispatch({ type: 'CHANGE_APPLE' });
     },
   };
 }

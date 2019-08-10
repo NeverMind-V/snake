@@ -1,12 +1,14 @@
-const getCoord = (i = 0) => {
-  const min = 0;
-  const max = 27;
-  return (Math.floor(Math.random() * (max - min) + min) + i);
-};
+import wormAutoMovement from './wormAutoMovement';
+import getCoord from './getCoord';
 
 const initialState = {
+  score: 0,
   dir: 'left',
-  position: {
+  wormPosition: {
+    top: getCoord(),
+    left: getCoord(),
+  },
+  applePosition: {
     top: getCoord(),
     left: getCoord(),
   },
@@ -16,8 +18,22 @@ export default function rootReducer(state = initialState, action) {
   switch (action.type) {
     case 'CHANGE_DIR':
       return {
+        ...state,
         dir: action.dir,
-        position: action.position,
+      };
+    case 'CHANGE_APPLE':
+      return {
+        ...state,
+        score: state.score + 1,
+        applePosition: {
+          top: getCoord(),
+          left: getCoord(),
+        },
+      };
+    case 'CHANGE_WORM':
+      return {
+        ...state,
+        wormPosition: wormAutoMovement(state.dir, state.wormPosition),
       };
     default:
       return state;
