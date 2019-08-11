@@ -6,12 +6,16 @@ import './worm.scss';
 function Worm(props) {
   const { position } = props;
   return (
-    <div className="worm" style={position} />
+    <>
+      {
+        position.map(item => <div className="worm" style={item} />)
+      }
+    </>
   );
 }
 
 Worm.propTypes = {
-  position: PropTypes.objectOf(PropTypes.string).isRequired,
+  position: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.number)).isRequired,
 };
 
 export default Worm;

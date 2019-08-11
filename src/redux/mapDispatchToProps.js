@@ -6,8 +6,8 @@ export default function mapDispatchToProps(dispatch) {
     onChangeWormPos: () => {
       dispatch({ type: 'CHANGE_WORM' });
     },
-    onChangeApplePos: () => {
-      dispatch({ type: 'CHANGE_APPLE' });
+    onChangeApplePos: (wormPosition) => {
+      dispatch({ type: 'GET_APPLE', wormPosition });
     },
   };
 }

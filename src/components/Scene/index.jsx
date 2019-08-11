@@ -10,15 +10,21 @@ import './scene.scss';
 
 class Scene extends React.Component {
   componentDidMount() {
-    const { onChangeWormPos, score } = this.props;
+    const { onChangeWormPos, speed } = this.props;
     this.interval = setInterval(() => {
       onChangeWormPos();
-    }, 300);
+    }, speed);
   }
 
   componentDidUpdate() {
-    const { applePosition, wormPosition } = this.props;
+    const {
+      applePosition, wormPosition, onChangeWormPos, speed,
+    } = this.props;
     this.changeApplePos(applePosition, wormPosition);
+    clearInterval(this.interval);
+    this.interval = setInterval(() => {
+      onChangeWormPos();
+    }, speed);
   }
 
   componentWillUnmount() {
@@ -33,9 +39,10 @@ class Scene extends React.Component {
   changeApplePos = (applePos, wormPos) => {
     const { onChangeApplePos } = this.props;
     const { left: appleX, top: appleY } = applePos;
-    const { left: warmX, top: warmY } = wormPos;
+    const { left: warmX, top: warmY } = wormPos[wormPos.length - 1];
+    const wormBody = wormPos.unshift([]);
     if (warmX === appleX && warmY === appleY) {
-      onChangeApplePos();
+      onChangeApplePos(wormBody);
     }
   };
 
@@ -63,11 +70,13 @@ class Scene extends React.Component {
 
   render() {
     console.log('App', this.props);
-    const { wormPosition, applePosition } = this.props;
+    const { applePosition } = this.props;
+    let { wormPosition } = this.props;
+    wormPosition = wormPosition.map(item => this.getCoords(item));
     return (
       <div className="scene__wrapper" role="button" tabIndex="-1" onKeyPress={this.onKeyHandler}>
         <div className="scene">
-          <Worm position={this.getCoords(wormPosition)} />
+          <Worm position={wormPosition} />
           <Apple position={this.getCoords(applePosition)} />
         </div>
       </div>
@@ -85,8 +94,8 @@ Scene.propTypes = {
   onChangeDir: PropTypes.func,
   onChangeApplePos: PropTypes.func,
   onChangeWormPos: PropTypes.func,
-  score: PropTypes.number.isRequired,
-  wormPosition: PropTypes.objectOf(PropTypes.number).isRequired,
+  speed: PropTypes.number.isRequired,
+  wormPosition: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.number)).isRequired,
   applePosition: PropTypes.objectOf(PropTypes.number).isRequired,
 };
 

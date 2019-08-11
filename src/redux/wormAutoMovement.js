@@ -1,46 +1,24 @@
-import swapCoords from './swapCoords';
+// import swapCoords from './swapCoords';
 
 export default function wormAutoMovement(dir, wormPosition) {
-  let nextCoord;
-  let nextPosition;
+  const wormBody = [...wormPosition];
+  const wormHead = wormPosition[wormPosition.length - 1];
   switch (dir) {
     case 'up':
-      nextCoord = swapCoords(wormPosition.top - 1) === undefined
-        ? wormPosition.top - 1
-        : swapCoords(wormPosition.top - 1);
-      nextPosition = {
-        ...wormPosition,
-        top: nextCoord,
-      };
+      wormHead.top -= 1;
       break;
     case 'down':
-      nextCoord = swapCoords(wormPosition.top + 1) === undefined
-        ? wormPosition.top + 1
-        : swapCoords(wormPosition.top + 1);
-      nextPosition = {
-        ...wormPosition,
-        top: nextCoord,
-      };
+      wormHead.top += 1;
       break;
     case 'right':
-      nextCoord = swapCoords(wormPosition.left + 1) === undefined
-        ? wormPosition.left + 1
-        : swapCoords(wormPosition.left + 1);
-      nextPosition = {
-        ...wormPosition,
-        left: nextCoord,
-      };
+      wormHead.left += 1;
       break;
     case 'left':
-      nextCoord = swapCoords(wormPosition.left - 1) === undefined
-        ? wormPosition.left - 1
-        : swapCoords(wormPosition.left - 1);
-      nextPosition = {
-        ...wormPosition,
-        left: nextCoord,
-      };
+      wormHead.left -= 1;
       break;
     default:
   }
-  return nextPosition;
+  wormBody.push(wormHead);
+  wormBody.shift();
+  return wormBody;
 }

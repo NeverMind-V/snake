@@ -4,10 +4,17 @@ import getCoord from './getCoord';
 const initialState = {
   score: 0,
   dir: 'left',
-  wormPosition: {
-    top: getCoord(),
-    left: getCoord(),
-  },
+  speed: 300,
+  wormPosition: [
+    {
+      top: 3,
+      left: 2,
+    },
+    {
+      top: 3,
+      left: 3,
+    },
+  ],
   applePosition: {
     top: getCoord(),
     left: getCoord(),
@@ -21,10 +28,12 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         dir: action.dir,
       };
-    case 'CHANGE_APPLE':
+    case 'GET_APPLE':
       return {
         ...state,
         score: state.score + 1,
+        speed: state.speed - 10,
+        wormPosition: action.wormPosition,
         applePosition: {
           top: getCoord(),
           left: getCoord(),
